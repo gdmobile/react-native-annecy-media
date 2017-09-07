@@ -100,7 +100,6 @@ export default class YourCustomApp extends Component {
         AnnecyService.init({
             country: 'GB',
             idfaGaid: 'idfa-or-gaid',
-            ip: '127.0.0.1',
             locale: 'en',
             token: 'annecy-token',
             userId: 'user-id'
