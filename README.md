@@ -39,22 +39,13 @@ import {
 
 ### AnnecyService
 
-| Method       | Params                                                                                                                                                                   | Notes                                                             |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| init         | `{Object}` config
-```javascript
-{
-    country: "GB",
-    idfaGaid: "idfa-or-gaid",
-    locale: "en",
-    token: "annecy-token",
-    userId: "user-id"
-}
-```              | Initialize Annecy Media SDK                                       |
-| setRequestId | `{String}` requestId                                                                                                                                                     | Set request ID                                                    |
-| onScroll     | none                                                                                                                                                                     | Tell SDK, that the user has scrolled                              |
-| resetViews   | none                                                                                                                                                                     | Send all tracked offers to Annecy Media and clear them afterwards |
-| sendViews    | none                                                                                                                                                                     | Send all tracked offers to Annecy Media but do not clear them     |
+| Method       | Arguments              | Notes                                                             |
+| ------------ | ---------------------- | ----------------------------------------------------------------- |
+| init         | `{Object}` config      | Initialize Annecy Media SDK                                       |
+| setRequestId | `{String}` requestId   | Set request ID                                                    |
+| onScroll     | none                   | Tell SDK, that the user has scrolled                              |
+| resetViews   | none                   | Send all tracked offers to Annecy Media and clear them afterwards |
+| sendViews    | none                   | Send all tracked offers to Annecy Media but do not clear them     |
 
 ### TrackingView
 
