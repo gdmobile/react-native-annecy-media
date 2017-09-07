@@ -28,16 +28,45 @@ Add `annecy.media` to your `NSExceptionDomains` in your project's `Info.plist`.
 </dict>
 ```
 
-## View tracking example
-
-This JSX shows an example offerwall component:
+## Services and Components
 
 ```javascript
 import {
     AnnecyService,
     TrackingView
 } from 'react-native-annecy-media';
+```
 
+### AnnecyService
+
+| Method       | Params                                                                                                                                                                   | Notes                                                             |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| init         | `{Object}` config
+```javascript
+{
+    country: "GB",
+    idfaGaid: "idfa-or-gaid",
+    locale: "en",
+    token: "annecy-token",
+    userId: "user-id"
+}
+```              | Initialize Annecy Media SDK                                       |
+| setRequestId | `{String}` requestId                                                                                                                                                     | Set request ID                                                    |
+| onScroll     | none                                                                                                                                                                     | Tell SDK, that the user has scrolled                              |
+| resetViews   | none                                                                                                                                                                     | Send all tracked offers to Annecy Media and clear them afterwards |
+| sendViews    | none                                                                                                                                                                     | Send all tracked offers to Annecy Media but do not clear them     |
+
+### TrackingView
+
+| Argument | Type         | Notes    |
+| -------- | ------------ | -------- |
+| id       | `{String}`   | Offer ID |
+
+## View Tracking Example
+
+This JSX shows an example offerwall component:
+
+```javascript
 import {
     ListView,
     RefreshControl
@@ -84,11 +113,6 @@ export default class YourCustomOfferWall extends Component {
 You can use it like this:
 
 ```javascript
-import {
-    AnnecyService,
-    TrackingView
-} from 'react-native-annecy-media';
-
 export default class YourCustomApp extends Component {
     constructor(props) {
         super(props);
