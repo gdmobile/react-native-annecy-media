@@ -1,0 +1,23 @@
+{
+  "name": "react-native-annecy-media",
+  "version": "1.0.0",
+  "description": "Annecy Media SDK for React Native",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdmobile/react-native-annecy-media.git"
+  },
+  "keywords": [
+    "annecy",
+    "react-native"
+  ],
+  "author": "Tobias Schultka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gdmobile/react-native-annecy-media/issues"
+  },
+  "homepage": "https://github.com/gdmobile/react-native-annecy-media#readme"
+}
