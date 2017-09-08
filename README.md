@@ -6,9 +6,9 @@
 $ npm i react-native-annecy-media --save
 ```
 
-### iOS
+#### iOS
 
-Add `annecy.media` to your `NSExceptionDomains` in your project's `Info.plist`.
+Add `annecy.media` to your **NSExceptionDomains** in your project's `Info.plist`.
 
 ```xml
 <key>NSAppTransportSecurity</key>
@@ -26,6 +26,7 @@ Add `annecy.media` to your `NSExceptionDomains` in your project's `Info.plist`.
         </dict>
     </dict>
 </dict>
+
 ```
 
 ## Services and Components
@@ -37,23 +38,33 @@ import {
 } from 'react-native-annecy-media';
 ```
 
-### AnnecyService
+#### AnnecyService
 
-| Method       | Arguments              | Notes                                                             |
-| ------------ | ---------------------- | ----------------------------------------------------------------- |
-| init         | `{Object}` config      | Initialize Annecy Media SDK                                       |
-| setRequestId | `{String}` requestId   | Set request ID                                                    |
-| onScroll     | none                   | Tell SDK, that the user has scrolled                              |
-| resetViews   | none                   | Send all tracked offers to Annecy Media and clear them afterwards |
-| sendViews    | none                   | Send all tracked offers to Annecy Media but do not clear them     |
+| Method | Arguments | Notes |
+| ------ | --------- | ----- |
+| init   | config&nbsp;`{Object}` | Initialize Annecy Media SDK |
+| setRequestId | requestId&nbsp;`{String}` | Set request ID |
+| onScroll | none | Tell the SDK, that the user has scrolled the `TableView` |
+| resetViews | none | Send all tracked offers to Annecy Media and clear them afterwards |
 
-### TrackingView
+#### TrackingView
 
-| Argument | Type         | Notes    |
-| -------- | ------------ | -------- |
-| id       | `{String}`   | Offer ID |
+A `TrackingView` will automatically handle views of your offers. Use it as a wrapper around your offer view.
 
-## View Tracking Example
+```html
+<TrackingView id={offer.id}>
+	<Text>{offer.title}</Text>
+</TrackingView>
+
+```
+
+| Attribute | Type         | Notes    |
+| --------- | ------------ | -------- |
+| id        | `{String}`   | Offer ID |
+
+## Examples
+
+#### TrackingView
 
 This JSX shows an example offerwall component:
 
@@ -63,7 +74,7 @@ import {
     RefreshControl
 } from 'react-native';
 
-export default class YourCustomOfferWall extends Component {
+export default class YourOfferWall extends Component {
     constructor(props) {
         super(props);
 
@@ -76,7 +87,7 @@ export default class YourCustomOfferWall extends Component {
     _renderRow(offer) {
         return (
             <TrackingView id={offer.id}>
-                <YourCustomRow offer={offer} />
+                <YourRow offer={offer} />
             </TrackingView>
         );
     }
@@ -99,12 +110,13 @@ export default class YourCustomOfferWall extends Component {
         );
     }
 }
+
 ```
 
-You can use it like this:
+#### AnnecyService
 
 ```javascript
-export default class YourCustomApp extends Component {
+export default class YourApp extends Component {
     constructor(props) {
         super(props);
 
@@ -133,10 +145,11 @@ export default class YourCustomApp extends Component {
 
     render() {
         return (
-            <YourCustomOfferWall
+            <YourOfferWall
                 offers={this.state.offers}
                 refreshOffers={this._refreshOffers.bind(this)} />
         );
     }
 }
+
 ```
