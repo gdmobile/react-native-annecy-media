@@ -53,7 +53,7 @@ A `TrackingView` will automatically handle views of your offers. Use it as a wra
 
 ```html
 <TrackingView id={offer.id}>
-	<Text>{offer.title}</Text>
+    <Text>{offer.title}</Text>
 </TrackingView>
 
 ```
