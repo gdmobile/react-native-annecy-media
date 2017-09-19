@@ -1,6 +1,6 @@
 {
   "name": "react-native-annecy-media",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Annecy Media SDK for React Native",
   "main": "index.js",
   "scripts": {
