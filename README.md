@@ -20,7 +20,7 @@ import {
 
 | Method | Arguments | Notes |
 | ------ | --------- | ----- |
-| init   | config&nbsp;`{Object}` | Initialize Annecy Media SDK |
+| init   | config&nbsp;`Object` | Initialize Annecy Media SDK |
 | onScroll | none | Tell the SDK, that the user has scrolled a `TableView` |
 | getOffers | onLazyOffersLoaded&nbsp;`Function` | Returns a promise that resolves `Offer`s |
 
@@ -35,9 +35,9 @@ A `TrackingView` will automatically handle views of your offers. Use it as a wra
 
 ```
 
-| Attribute | Type         | Notes    |
-| --------- | ------------ | -------- |
-| id        | `{String}`   | Offer ID |
+| Attribute | Type       | Notes    |
+| --------- | ---------- | -------- |
+| id        | `String`   | Offer ID |
 
 #### Offer
 
@@ -45,19 +45,19 @@ A `Offer` model represents a campaign.
 
 | Key         | Type        | Example                     |
 | ----------- | ----------- | --------------------------- |
-| attributes  | `{Object}`  | `{color: '#F00'}`           |
-| costType    | `{String}`  | `"cpi"`, `"cpa"`, `"cps"`   |
-| credits     | `{Number}`  | `100`                       |
-| ctaText     | `{String}`  | `"Finish the task!"`        |
-| ctaTitle    | `{String}`  | `"Company Name"`            |
-| id          | `{String}`  | `"foo"`                     |
-| isVisible   | `{Boolean}` | `true`                      |
-| imageUrl    | `{String}`  | `"http://foo.com/bar.png"`  |
-| payout      | `{Number}`  | `10`                        |
-| text        | `{String}`  | `"Finish the task"`         |
-| title       | `{String}`  | `"Company Name"`            |
-| trackingUrl | `{String}`  | `"http://foo.com/bar.html"` |
-| type        | `{String}`  | `Offer.TYPE.OFFER`          |
+| attributes  | `Object`  | `{color: '#F00'}`           |
+| costType    | `String`  | `"cpi"`, `"cpa"`, `"cps"`   |
+| credits     | `Number`  | `100`                       |
+| ctaText     | `String`  | `"Finish the task!"`        |
+| ctaTitle    | `String`  | `"Company Name"`            |
+| id          | `String`  | `"foo"`                     |
+| isVisible   | `Boolean` | `true`                      |
+| imageUrl    | `String`  | `"http://foo.com/bar.png"`  |
+| payout      | `Number`  | `10`                        |
+| text        | `String`  | `"Finish the task"`         |
+| title       | `String`  | `"Company Name"`            |
+| trackingUrl | `String`  | `"http://foo.com/bar.html"` |
+| type        | `String`  | `Offer.TYPE.OFFER`          |
 
 ## Example
 
