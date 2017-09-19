@@ -1,18 +1,19 @@
 //  Created by Tobias Schultka
 //  Copyright © 2017 annecy.media. All rights reserved.
 
+import LazyOffer from './LazyOffer.js';
+import Offer from './Offer.js';
+import RequestService from './RequestService.js';
 import {
     AppState,
     Platform
 } from 'react-native';
 
-const BASE_URL = 'https://api.annecy.media';
-const API_VERSION = '1.0';
-
 class AnnecyService {
     constructor() {
         this._config = null;
         this._hasScrolledSinceLastTracking = true;
+        this._offerRequestCount = 0;
         this._requestId = null;
         this._trackedOffers = [];
         this._trackingChecker = [];
@@ -38,13 +39,7 @@ class AnnecyService {
      */
     init(config) {
         this._config = config;
-    }
-
-    /**
-     * Set request ID.
-     */
-    setRequestId(requestId) {
-        this._requestId = requestId;
+        RequestService.setToken(config.token);
     }
 
     /**
@@ -66,7 +61,7 @@ class AnnecyService {
     /**
      * Remove tracking checker.
      *
-     * @param  {Function} trackingChecker
+     * @param {Function} trackingChecker
      */
     removeTrackingChecker(trackingChecker) {
         const index = this._trackingChecker.indexOf(trackingChecker);
@@ -77,10 +72,9 @@ class AnnecyService {
     }
 
     /**
-     * Send views to Annecy API and reset tracked offer IDs.
+     * Reset tracked offer IDs.
      */
-    resetViews() {
-        this.sendViews();
+    _resetViews() {
         this._hasScrolledSinceLastTracking = true;
         this._trackedOffers = [];
     }
@@ -111,6 +105,123 @@ class AnnecyService {
     }
 
     /**
+     * Get offers.
+     *
+     * @param  {Function} onLazyOffersLoaded
+     * @return {Promise}
+     */
+    getOffers(onLazyOffersLoaded) {
+        return new Promise((resolve, reject) => {
+            this.sendViews();
+            this._resetViews();
+            this._offerRequestCount++;
+
+            const formData = {
+                advertiser_id: this._config.idfaGaid || '',
+                country: this._config.country || '',
+                locale: this._config.locale || '',
+                platform: Platform.OS,
+                user_id: this._config.userId || '',
+            };
+
+            RequestService.request({
+                method: 'GET',
+                path: '/offers',
+                formData: formData
+            }).then((offersJson) => {
+                this._getOffersFromOffersJson(
+                    offersJson,
+                    this._offerRequestCount,
+                    onLazyOffersLoaded
+                ).then(resolve).catch(reject);
+            }).catch(reject);
+        });
+    }
+
+    /**
+     * Get offers from offers JSON.
+     *
+     * @param  {Object} offersJson
+     * @param  {Number} offerRequestCount
+     * @param  {Function} onLazyOffersLoaded
+     * @return {Promise}
+     */
+    _getOffersFromOffersJson(offersJson, offerRequestCount, onLazyOffersLoaded) {
+        return new Promise((resolve, reject) => {
+            const offers = [];
+
+            if (typeof offersJson !== 'object') {
+                return reject();
+            }
+
+            (offersJson.offers || []).forEach((offerJson) => {
+                if (typeof offerJson === 'object') {
+                    offers.push(new Offer(offerJson));
+                }
+            });
+
+            if (typeof offersJson.request_id === 'string') {
+                this._requestId = offersJson.request_id;
+            }
+
+            (offersJson.lazy_calls || []).forEach((lazyUrl) => {
+                this._getLazyOffers(lazyUrl).then((lazyOffers) => {
+
+                    // Make sure, that user hasn't refreshed offers since last request.
+                    if (this._offerRequestCount !== offerRequestCount) {
+                        return;
+                    }
+
+                    // Replace tracking URL keys with values from lazy advertisers.
+                    lazyOffers.forEach((lazyOffer) => {
+                        offers.forEach((offer, index) => {
+                            if (offer.lazyId !== lazyOffer.lazyId) {
+                                return;
+                            }
+
+                            lazyOffer.fields.forEach((field) => {
+                                offer.trackingUrl = offer.trackingUrl.replace(field.key, field.value);
+                            });
+
+                            offer.isVisible = true;
+                        });
+                    });
+
+                    onLazyOffersLoaded(offers);
+
+                }).catch(() => null);
+            });
+
+            resolve(offers);
+        });
+    }
+
+    /**
+     * Get lazy offers.
+     *
+     * @param  {String} lazyUrl
+     * @return {Promise}
+     */
+    _getLazyOffers(lazyUrl) {
+        return new Promise((resolve, reject) => {
+            RequestService.request({
+                method: 'GET',
+                url: lazyUrl
+            }).then((lazyOffersJson) => {
+                const lazyOffers = [];
+
+                if (typeof lazyOffersJson === 'object') {
+                    (lazyOffersJson.lazy_offers || []).forEach((lazyOfferJson) => {
+                        lazyOffers.push(new LazyOffer(lazyOfferJson));
+                    });
+                }
+
+                resolve(lazyOffers);
+            }).catch(reject);
+        });
+    }
+
+    /**
      * Send views to Annecy API.
      */
     sendViews() {
@@ -131,30 +242,23 @@ class AnnecyService {
             return;
         }
 
-        const requestParams = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${ this._config.token || '' }`,
-                'Content-Type': 'application/json',
-                'API-VERSION': API_VERSION
+        const body = {
+            offers: newTrackedOffers,
+            params: {
+                advertiser_id: this._config.idfaGaid || '',
+                country: this._config.country || '',
+                locale: this._config.locale || '',
+                platform: Platform.OS,
+                user_id: this._config.userId || ''
             },
-            body: JSON.stringify({
-                offers: newTrackedOffers,
-                params: {
-                    advertiser_id: this._config.idfaGaid || '',
-                    country: this._config.country || '',
-                    locale: this._config.locale || '',
-                    platform: Platform.OS,
-                    user_id: this._config.userId || ''
-                },
-                request_id: this._requestId
-            })
+            request_id: this._requestId
         };
 
-        fetch(`${ BASE_URL }/views`, requestParams).then(() => null).catch(() => {
-            // TODO: handle errors!
-        });
+        RequestService.request({
+            method: 'POST',
+            path: '/views',
+            body: body
+        }).then(() => null).catch(() => null);
     }
 
     /**
