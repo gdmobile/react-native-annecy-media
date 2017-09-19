@@ -43,21 +43,21 @@ A `TrackingView` will automatically handle views of your offers. Use it as a wra
 
 A `Offer` model represents a campaign.
 
-| Key         | Type             | Example                     |
-| ----------- | ---------------- | --------------------------- |
-| attributes  | `{Object}`       | `{color: '#F00'}`           |
-| costType    | `{String}`       | `"cpi"`, `"cpa"`, `"cps"`   |
-| credits     | `{Number}`       | `100`                       |
-| ctaText     | `{String|null}`  | `"Finish the task!"`        |
-| ctaTitle    | `{String|null}`  | `"Company Name"`            |
-| id          | `{String}`       | `"foo"`                     |
-| isVisible   | `{Boolean}`      | `true`                      |
-| imageUrl    | `{String}`       | `"http://foo.com/bar.png"`  |
-| payout      | `{Number}`       | `10`                        |
-| text        | `{String}`       | `"Finish the task"`         |
-| title       | `{String}`       | `"Company Name"`            |
-| trackingUrl | `{String}`       | `"http://foo.com/bar.html"` |
-| type        | `{String}`       | `Offer.TYPE.OFFER`          |
+| Key         | Type        | Example                     |
+| ----------- | ----------- | --------------------------- |
+| attributes  | `{Object}`  | `{color: '#F00'}`           |
+| costType    | `{String}`  | `"cpi"`, `"cpa"`, `"cps"`   |
+| credits     | `{Number}`  | `100`                       |
+| ctaText     | `{String}`  | `"Finish the task!"`        |
+| ctaTitle    | `{String}`  | `"Company Name"`            |
+| id          | `{String}`  | `"foo"`                     |
+| isVisible   | `{Boolean}` | `true`                      |
+| imageUrl    | `{String}`  | `"http://foo.com/bar.png"`  |
+| payout      | `{Number}`  | `10`                        |
+| text        | `{String}`  | `"Finish the task"`         |
+| title       | `{String}`  | `"Company Name"`            |
+| trackingUrl | `{String}`  | `"http://foo.com/bar.html"` |
+| type        | `{String}`  | `Offer.TYPE.OFFER`          |
 
 ## Example
 
