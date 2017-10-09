@@ -192,6 +192,7 @@ class AnnecyService {
                 }).catch(() => null);
             });
 
+            this._hasScrolledSinceLastTracking = true;
             resolve(offers);
         });
     }
@@ -216,6 +217,7 @@ class AnnecyService {
                     });
                 }
 
+                this._hasScrolledSinceLastTracking = true;
                 resolve(lazyOffers);
             }).catch(reject);
         });

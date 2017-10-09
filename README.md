@@ -43,8 +43,8 @@ A `TrackingView` will automatically handle views of your offers. Use it as a wra
 
 A `Offer` model represents a campaign.
 
-| Key         | Type        | Example                     |
-| ----------- | ----------- | --------------------------- |
+| Key         | Type      | Example                     |
+| ----------- | --------- | --------------------------- |
 | attributes  | `Object`  | `{color: '#F00'}`           |
 | costType    | `String`  | `"cpi"`, `"cpa"`, `"cps"`   |
 | credits     | `Number`  | `100`                       |
