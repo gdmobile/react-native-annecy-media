@@ -24,6 +24,7 @@ import {
 | onScroll | none | Tell the SDK, that the user has scrolled a `TableView` |
 | getOffers | onLazyOffersLoaded&nbsp;`Function` | Returns a promise that resolves `Offer`s |
 | setRequestId | requestId&nbsp;`String` | If you're not using the `getOffers` method but your own service, you have to set the `requestId` manually |
+| sendAndResetViews | none | If you're not using the `getOffers` method but your own service, you have to send and reset views manually |
 
 #### TrackingView
 

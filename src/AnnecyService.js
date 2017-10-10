@@ -22,12 +22,12 @@ class AnnecyService {
         setInterval(this._trackViews.bind(this), 800);
 
         // Views will be sent to API every 30 seconds, if there are new.
-        setInterval(this.sendViews.bind(this), 30000);
+        setInterval(this._sendViews.bind(this), 30000);
 
         // Views will be sent to API, as soon as the user put the app in background.
         AppState.addEventListener('change', (currentAppState) => {
             if (currentAppState === 'inactive' || currentAppState === 'background') {
-                this.sendViews();
+                this._sendViews();
             }
         });
     }
@@ -81,6 +81,14 @@ class AnnecyService {
     }
 
     /**
+     * Send and reset views.
+     */
+    sendAndResetViews() {
+        this._sendViews();
+        this._resetViews();
+    }
+
+    /**
      * Reset tracked offer IDs.
      */
     _resetViews() {
@@ -121,8 +129,7 @@ class AnnecyService {
      */
     getOffers(onLazyOffersLoaded) {
         return new Promise((resolve, reject) => {
-            this.sendViews();
-            this._resetViews();
+            this.sendAndResetViews();
             this._offerRequestCount++;
 
             const formData = {
@@ -235,7 +242,7 @@ class AnnecyService {
     /**
      * Send views to Annecy API.
      */
-    sendViews() {
+    _sendViews() {
         if (typeof this._config !== 'object' || this._requestId === null) {
             return;
         }
