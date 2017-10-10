@@ -72,6 +72,15 @@ class AnnecyService {
     }
 
     /**
+     * Set request ID.
+     *
+     * @param {String} requestId
+     */
+    setRequestId(requestId) {
+        this._requestId = requestId;
+    }
+
+    /**
      * Reset tracked offer IDs.
      */
     _resetViews() {
