@@ -1,5 +1,7 @@
 # Annecy Media SDK for React Native
 
+Use our [API Docs](https://admin.annecy.media/docs) for an awesome integration experience!
+
 ## Install
 
 ```bash
